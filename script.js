@@ -217,27 +217,43 @@ async function loadLaws() {
     lawsLoading = true;
     lawsContent.setAttribute("aria-busy", "true");
     lawsContent.textContent = "Kanunlar yükleniyor...";
+
     try {
-        const response = await fetch("/user_laws.txt", { credentials: "same-origin" });
+        const response = await fetch("/api/laws", {
+            credentials: "same-origin"
+        });
+
         if (!response.ok) {
-            throw new Error("Kanunlar isteği HTTP " + response.status + " yanıtı verdi.");
+            throw new Error(
+                "Kanunlar isteği HTTP " + response.status + " yanıtı verdi."
+            );
         }
 
         const markdown = await response.text();
-        const rendered = marked.parse(markdown, { gfm: true, breaks: true });
-        lawsContent.innerHTML = DOMPurify.sanitize(rendered, { USE_PROFILES: { html: true } });
+        const rendered = marked.parse(markdown, {
+            gfm: true,
+            breaks: true
+        });
+
+        lawsContent.innerHTML = DOMPurify.sanitize(rendered, {
+            USE_PROFILES: { html: true }
+        });
+
         lawsLoaded = true;
     } catch (error) {
         console.error("Kanunlar yüklenemedi:", error);
         lawsContent.replaceChildren();
 
         const message = document.createElement("p");
-        message.textContent = "Kanunlar yüklenemedi. Bağlantını kontrol edip tekrar dene.";
+        message.textContent =
+            "Kanunlar yüklenemedi. Bağlantını kontrol edip tekrar dene.";
+
         const retryButton = document.createElement("button");
         retryButton.className = "laws-retry-button";
         retryButton.type = "button";
         retryButton.textContent = "Tekrar dene";
         retryButton.addEventListener("click", loadLaws);
+
         lawsContent.append(message, retryButton);
     } finally {
         lawsLoading = false;

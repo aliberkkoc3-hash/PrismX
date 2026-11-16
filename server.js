@@ -20,7 +20,7 @@ const app = express();
 
 const port = Number(process.env.PORT) || 3000;
 
-const host = process.env.HOST || "127.0.0.1";
+const host = process.env.HOST || "0.0.0.0";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -37,6 +37,12 @@ const sqliteUniqueConstraintCode = 2067;
 const scryptOptions = { N: 32768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 };
 
 const aiEngine = require("./ai-engine");
+
+const userLawsPath =
+  process.env.USER_LAWS_PATH ||
+  (fs.existsSync("/etc/secrets/user_laws.txt")
+    ? "/etc/secrets/user_laws.txt"
+    : path.join(__dirname, "user_laws.txt"));
 
 const databaseDirectory = process.env.ALIDB_PATH
   ? path.dirname(path.resolve(process.env.ALIDB_PATH))
@@ -460,35 +466,48 @@ app.get("/auth.css", (req, res) => {
 });
 
 app.get("/fonts/:filename", (req, res) => {
-    const allowedFonts = ["VCR_OSD_MONO.ttf"];
+  const allowedFonts = ["VCR_OSD_MONO.ttf"];
 
-    if (!allowedFonts.includes(req.params.filename)) {
-        return res.sendStatus(404);
-    }
+  if (!allowedFonts.includes(req.params.filename)) {
+    return res.sendStatus(404);
+  }
 
-    res.type("font/ttf");
-    res.sendFile(path.join(__dirname, "fonts", req.params.filename));
+  res.type("font/ttf");
+  res.sendFile(path.join(__dirname, "fonts", req.params.filename));
 });
 
 app.get("/health", (req, res) => {
-    res.status(200).json({
-        status: "online",
-        service: "PrismX"
+  res.status(200).json({
+    status: "online",
+    service: "PrismX",
+  });
+});
+
+app.get("/api/laws", (req, res) => {
+  try {
+    const laws = fs.readFileSync(userLawsPath, "utf8");
+
+    if (!laws.trim()) {
+      return res.status(503).json({
+        error: "Kullanıcı kanunları dosyası boş.",
+      });
+    }
+
+    return res.status(200).type("text/plain").send(laws);
+  } catch (error) {
+    console.error("[PrismX Server] Kullanıcı kanunları okunamadı:", {
+      code: error.code || "LAWS_READ_ERROR",
+      message: error.message,
     });
+
+    return res.status(503).json({
+      error: "Kullanıcı kanunları şu anda yüklenemiyor.",
+    });
+  }
 });
 
 app.get("/script.js", (req, res) => {
   res.sendFile(path.join(__dirname, "script.js"));
-});
-
-app.get("/instructions.txt", (req, res) => {
-  res.type("text/plain");
-  res.sendFile(path.join(__dirname, "instructions.txt"));
-});
-
-app.get("/user_laws.txt", (req, res) => {
-    res.type("text/plain");
-    res.sendFile(path.join(__dirname, "user_laws.txt"));
 });
 
 app.get("/vendor/marked.umd.js", (req, res) => {

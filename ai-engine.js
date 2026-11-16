@@ -11,7 +11,10 @@ const path = require("node:path");
 // ==========================================
 
 // System instructions
-const instructionsPath = path.join(__dirname, "instructions.txt");
+const instructionsPath = process.env.INSTRUCTIONS_PATH
+    || (fs.existsSync("/etc/secrets/instructions.txt")
+        ? "/etc/secrets/instructions.txt"
+        : path.join(__dirname, "instructions.txt"));
 
 if (!fs.existsSync(instructionsPath)) {
     throw new Error(
