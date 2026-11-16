@@ -10,6 +10,12 @@ node_modules/
 .env.*
 !.env.example
 
+# SQLite Database
+data/
+*.db
+*.db-wal
+*.db-shm
+
 # Logs
 logs/
 *.log
