@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090b10">
+    <title>Prism X — Hesap Oluştur</title>
+    <link rel="icon" type="image/png" href="PrismX.png">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <main class="auth-screen">
+        <section class="auth-card" aria-labelledby="registerTitle">
+            <img class="auth-logo" src="PrismX.png" alt="Prism X — BY PRISM CREW">
+            <p class="auth-brandline">BY PRISM CREW</p>
+            <h1 id="registerTitle">Hesabını oluştur</h1>
+            <p class="auth-description">PrismX asistanını kullanmak için yeni hesabını oluştur.</p>
+
+            <form class="auth-form" id="registerForm" novalidate>
+                <label for="registerUsername">Kullanıcı adı</label>
+                <input id="registerUsername" name="username" type="text" autocomplete="username" minlength="3" maxlength="32" autocapitalize="none" spellcheck="false" required>
+
+                <label for="registerPassword">Parola</label>
+                <input id="registerPassword" name="password" type="password" autocomplete="new-password" maxlength="128" required>
+
+                <div class="confirm-password-field" id="confirmPasswordField">
+                    <label for="registerPasswordConfirm">Parolayı tekrar gir</label>
+                    <input id="registerPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" maxlength="128" required>
+                    <small>En az 12 karakter kullan.</small>
+                </div>
+
+                <div class="auth-remember-row">
+                    <label class="auth-remember" for="registerRememberMe">
+                        <input id="registerRememberMe" name="rememberMe" type="checkbox">
+                        <span>Beni hatırla</span>
+                    </label>
+                </div>
+
+                <p class="auth-error" id="authError" role="alert" hidden></p>
+                <button class="auth-submit" id="registerSubmit" type="submit">Hesap oluştur</button>
+            </form>
+
+            <p class="auth-security-note">Zaten hesabın var mı? <a href="/login">Giriş yap</a></p>
+        </section>
+    </main>
+
+    <script>
+        const registerForm = document.getElementById('registerForm');
+        const registerSubmit = document.getElementById('registerSubmit');
+        const authError = document.getElementById('authError');
+
+        function showAuthError(message) {
+            authError.textContent = message;
+            authError.hidden = !message;
+        }
+
+        registerForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            showAuthError('');
+
+            const username = document.getElementById('registerUsername').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+            const rememberMe = document.getElementById('registerRememberMe').checked;
+
+            if (password !== passwordConfirm) {
+                showAuthError('Parolalar eşleşmiyor.');
+                document.getElementById('registerPasswordConfirm').focus();
+                return;
+            }
+
+            if (!username || !password) {
+                showAuthError('Kullanıcı adı ve parola gerekli.');
+                return;
+            }
+
+            registerSubmit.disabled = true;
+            registerSubmit.textContent = 'Hesap oluşturuluyor...';
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ username, password, rememberMe })
+                });
+
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    showAuthError(result.error || 'Hesap oluşturulamadı.');
+                    return;
+                }
+
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Registration failed:', error);
+                showAuthError('Sunucuya ulaşılamıyor. Lütfen tekrar deneyin.');
+            } finally {
+                registerSubmit.disabled = false;
+                registerSubmit.textContent = 'Hesap oluştur';
+            }
+        });
+    </script>
+</body>
+</html>

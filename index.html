@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090b10">
+    <meta name="description" content="Haxe, HaxeFlixel, OpenFL ve Psych Engine için AI destekli geliştirme asistanı.">
+    <title>Prism X — Geliştirme Asistanı</title>
+    <link rel="icon" type="image/png" href="PrismX.png">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="/vendor/marked.umd.js" defer></script>
+    <script src="/vendor/purify.min.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main class="auth-screen" id="authScreen" aria-labelledby="authTitle">
+        <section class="auth-card">
+            <img class="auth-logo" src="PrismX.png" alt="Prism X — BY PRISM CREW">
+            <p class="auth-brandline">BY PRISM CREW</p>
+            <h1 id="authTitle">Tekrar hoş geldin</h1>
+            <p class="auth-description" id="authDescription">PrismX asistanına devam etmek için giriş yap.</p>
+
+            <div class="auth-tabs" role="tablist" aria-label="Hesap işlemi">
+                <button class="auth-tab active" id="loginTab" type="button" role="tab" aria-selected="true" data-auth-mode="login">Giriş yap</button>
+                <button class="auth-tab" id="registerTab" type="button" role="tab" aria-selected="false" data-auth-mode="register">Hesap oluştur</button>
+            </div>
+
+            <form class="auth-form" id="authForm" novalidate>
+                <label for="authUsername">Kullanıcı adı</label>
+                <input id="authUsername" name="username" type="text" autocomplete="username" minlength="3" maxlength="32" autocapitalize="none" spellcheck="false" required>
+
+                <label for="authPassword">Parola</label>
+                <input id="authPassword" name="password" type="password" autocomplete="current-password" maxlength="128" required>
+
+                <div class="auth-remember-row">
+                    <label class="auth-remember" for="authRememberMe">
+                        <input id="authRememberMe" name="rememberMe" type="checkbox">
+                        <span>Beni hatırla</span>
+                    </label>
+                </div>
+
+                <div class="confirm-password-field" id="confirmPasswordField" hidden>
+                    <label for="authPasswordConfirm">Parolayı tekrar gir</label>
+                    <input id="authPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" maxlength="128">
+                    <small>En az 12 karakter kullan.</small>
+                </div>
+
+                <p class="auth-error" id="authError" role="alert" hidden></p>
+                <button class="auth-submit" id="authSubmit" type="submit">Giriş yap</button>
+            </form>
+
+            <p class="auth-security-note">Hesap bilgilerin AliDB'de güvenli biçimde saklanır.</p>
+        </section>
+    </main>
+
+    <div class="app-shell" id="appShell" hidden>
+        <aside class="sidebar" aria-label="Sohbet araçları">
+            <a class="brand" href="#" aria-label="Prism X — BY PRISM CREW">
+                <img class="brand-mark" src="PrismX.png" alt="Prism X — BY PRISM CREW">
+                <span class="brand-copy">
+                    <strong>Prism<span>X</span></strong>
+                    <small>BY PRISM CREW</small>
+                </span>
+            </a>
+
+            <button class="new-chat-button" id="newChatButton" type="button">
+                <span aria-hidden="true">＋</span> Yeni sohbet
+            </button>
+
+            <div class="sidebar-section">
+                <p class="sidebar-label">UZMANLIK ALANLARI</p>
+                <div class="expertise-item"><span class="expertise-dot purple"></span> Haxe &amp; HaxeFlixel</div>
+                <div class="expertise-item"><span class="expertise-dot blue"></span> OpenFL</div>
+                <div class="expertise-item"><span class="expertise-dot orange"></span> Psych Engine &amp; Lua</div>
+            </div>
+
+            <button class="laws-tab" type="button" data-open-laws aria-haspopup="dialog" aria-controls="lawsDialog">
+                <span class="laws-tab-icon" aria-hidden="true">📗</span>
+                <span class="laws-tab-copy">
+                    <strong>Kanunlar</strong>
+                    <small>Prism Crew rehberi</small>
+                </span>
+                <span class="laws-tab-arrow" aria-hidden="true">↗</span>
+            </button>
+
+            <section class="history-section" aria-label="Sohbet geçmişi">
+                <p class="sidebar-label">SOHBETLER</p>
+                <nav class="conversation-list" id="conversationList" aria-label="Kayıtlı sohbetler"></nav>
+                <p class="history-empty" id="historyEmpty">Henüz kayıtlı sohbet yok.</p>
+            </section>
+
+            <div class="sidebar-bottom">
+                <div class="local-card">
+                    <span class="local-icon" aria-hidden="true">◈</span>
+                    <div>
+                        <strong>Yerel yedek hazır</strong>
+                        <span class="sidebar-username" id="sidebarUsername"></span>
+                        <small>Bağlantı kesilirse devrede</small>
+                    </div>
+                    <span class="online-indicator" aria-label="Hazır"></span>
+                </div>
+                <p class="sidebar-footnote">Yanıtlar yapay zekâ tarafından oluşturulur. Kodları kullanmadan önce test et.</p>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+            <header class="topbar">
+                <div class="mobile-brand">
+                    <img class="brand-mark" src="PrismX.png" alt="Prism X — BY PRISM CREW">
+                    <span class="mobile-brand-copy">
+                        <strong>Prism<span>X</span></strong>
+                        <small>BY PRISM CREW</small>
+                    </span>
+                </div>
+                <div class="topbar-context">
+                    <span class="context-label">ÇALIŞMA ALANI</span>
+                    <span class="context-title">Haxe geliştirme</span>
+                </div>
+                <div class="topbar-actions">
+                    <button class="mobile-laws-button" type="button" data-open-laws aria-label="Kanunları aç" aria-haspopup="dialog" aria-controls="lawsDialog">§</button>
+                    <span class="user-pill" id="userPill"></span>
+                    <div class="connection-badge" id="statusBadge" data-state="ready" role="status" aria-live="polite">
+                        <span class="connection-dot" aria-hidden="true"></span>
+                        <span id="statusText">Asistan hazır</span>
+                    </div>
+                    <button class="logout-button" id="logoutButton" type="button">Çıkış</button>
+                    <button class="icon-button" id="clearChatButton" type="button" aria-label="Aktif sohbeti sil" title="Aktif sohbeti sil">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6m4-6v6M5 7l1 13h12l1-13M9 7V4h6v3"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <section class="conversation" aria-label="Sohbet">
+                <div class="welcome-screen" id="welcomeScreen">
+                    <div class="welcome-symbol" aria-hidden="true">
+                        <img class="welcome-logo" src="PrismX.png" alt="">
+                        <span class="sparkle sparkle-one">✦</span>
+                        <span class="sparkle sparkle-two">✧</span>
+                    </div>
+                    <p class="eyebrow">BY PRISM CREW · HAXE GELİŞTİRME ASİSTANI</p>
+                    <h1>Bir sonraki fikrini<br><span>birlikte geliştirelim.</span></h1>
+                    <p class="welcome-description">Haxe, HaxeFlixel, OpenFL veya Psych Engine projen için sorunu yaz. Kod üret, hata ayıkla ya da yeni bir şey öğren.</p>
+
+                    <div class="suggestion-grid" aria-label="Örnek sorular">
+                        <button class="suggestion-card" type="button" data-prompt="HaxeFlixel ile çift zıplama mekaniği nasıl yapılır?">
+                            <span class="suggestion-icon violet" aria-hidden="true">↗</span>
+                            <span><strong>Bir oyun mekaniği oluştur</strong><small>HaxeFlixel ile çift zıplama</small></span>
+                            <span class="suggestion-arrow" aria-hidden="true">↗</span>
+                        </button>
+                        <button class="suggestion-card" type="button" data-prompt="Haxe'te JSON dosyasını güvenli şekilde nasıl okurum?">
+                            <span class="suggestion-icon blue" aria-hidden="true">{ }</span>
+                            <span><strong>Bir kod örneği yaz</strong><small>Haxe'te JSON dosyası okuma</small></span>
+                            <span class="suggestion-arrow" aria-hidden="true">↗</span>
+                        </button>
+                        <button class="suggestion-card" type="button" data-prompt="Psych Engine'de şarkı başlayınca ekranı hafifçe sallayan Lua kodu yaz.">
+                            <span class="suggestion-icon orange" aria-hidden="true">⌁</span>
+                            <span><strong>Psych Engine'i keşfet</strong><small>Lua ile ekran efekti ekle</small></span>
+                            <span class="suggestion-arrow" aria-hidden="true">↗</span>
+                        </button>
+                        <button class="suggestion-card" type="button" data-prompt="Haxe ile OpenFL arasındaki fark nedir? Hangi durumda hangisini seçmeliyim?">
+                            <span class="suggestion-icon green" aria-hidden="true">◉</span>
+                            <span><strong>Bir konuyu öğren</strong><small>Haxe ve OpenFL farkları</small></span>
+                            <span class="suggestion-arrow" aria-hidden="true">↗</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="messages" id="chat-container" aria-live="polite" aria-relevant="additions"></div>
+            </section>
+
+            <footer class="composer-area">
+                <form class="composer" id="chatForm">
+                    <label class="sr-only" for="userInput">Mesajınız</label>
+                    <div class="composer-attachment" id="markdownAttachment" hidden aria-live="polite">
+                        <span class="attachment-icon" aria-hidden="true">MD</span>
+                        <span class="attachment-name" id="markdownFileName"></span>
+                        <button class="remove-attachment-button" id="removeMarkdownButton" type="button" aria-label="Markdown dosyasını kaldır" title="Dosyayı kaldır">×</button>
+                    </div>
+                    <input class="sr-only" id="markdownFileInput" type="file" accept=".md,text/markdown">
+                    <textarea id="userInput" rows="1" maxlength="12000" placeholder="Haxe hakkında bir şey sor..." autocomplete="off"></textarea>
+                    <div class="composer-toolbar">
+                        <div class="composer-tools">
+                            <button class="attach-markdown-button" id="attachMarkdownButton" type="button" aria-label="Markdown dosyası ekle" title="Markdown dosyası ekle">
+                                <span aria-hidden="true">＋</span> .md
+                            </button>
+                            <span class="composer-hint"><kbd>Enter</kbd> gönder <span class="hint-divider">·</span> <kbd>Shift + Enter</kbd> yeni satır</span>
+                        </div>
+                        <button id="sendButton" type="submit" aria-label="Mesajı gönder">
+                            <span>Gönder</span>
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M10 4l6 6-6 6"/></svg>
+                        </button>
+                    </div>
+                </form>
+                <p class="disclaimer">Mesajların Gemini'ye, gerekirse Groq'a iletilir. PrismX hata yapabilir; önemli kodları çalıştırmadan önce kontrol et.</p>
+            </footer>
+        </main>
+    </div>
+
+    <dialog class="laws-dialog" id="lawsDialog" aria-labelledby="lawsDialogTitle">
+        <header class="laws-dialog-header">
+            <div class="laws-dialog-heading">
+                <span class="laws-dialog-mark" aria-hidden="true">📗</span>
+                <div>
+                    <p class="laws-dialog-eyebrow">PRISM CREW · ASİSTAN REHBERİ</p>
+                    <h2 id="lawsDialogTitle">PrismX Konuşma Kanunları</h2>
+                </div>
+            </div>
+            <button class="laws-close-button" id="lawsCloseButton" type="button" aria-label="Kanunları kapat">×</button>
+        </header>
+        <div class="laws-content" id="lawsContent" aria-live="polite" aria-busy="true">
+            <p>Kanunlar yükleniyor...</p>
+        </div>
+        <footer class="laws-dialog-footer">
+            <span>PRISM CREW</span>
+            <span>8 MADDE</span>
+        </footer>
+    </dialog>
+</body>
+</html>

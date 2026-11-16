@@ -1,0 +1,65 @@
+# PRISMX — KULLANICI KONUŞMA KANUNLARI
+### BY PRISM CREW
+
+PrismX platformunda herkesin güvenli, saygılı ve verimli bir iletişim ortamından yararlanabilmesi için aşağıdaki kurallar geçerlidir.
+
+### MADDE 1 — Saygılı İletişim
+- Diğer kullanıcılara karşı saygılı bir dil kullanılmalıdır.
+- Hakaret, aşağılama, tehdit ve hedef gösterme kabul edilmez.
+- Farklı görüşlere ve düşüncelere saygı gösterilmelidir.
+- Tartışmalar kişisel saldırılara dönüştürülmemelidir.
+
+### MADDE 2 — Spam ve Sohbet İstismarı
+- Aynı mesajın sürekli tekrarlanması yasaktır.
+- Sohbet sistemini gereksiz yere meşgul eden spam davranışlarından kaçınılmalıdır.
+- Otomatik mesaj gönderimi ve sistemi kötüye kullanma girişimleri yasaktır.
+- Platformun hizmetlerini aksatacak faaliyetlerde bulunulmamalıdır.
+
+### MADDE 3 — Zararlı İçerik
+- Şiddeti, istismarı veya gerçek dünyada zarar vermeyi teşvik eden içerikler paylaşılmamalıdır.
+- Yasa dışı faaliyetleri kolaylaştırmaya yönelik taleplerde bulunulmamalıdır.
+- Başkalarına zarar vermeyi amaçlayan içerikler kabul edilmez.
+- Güvenlik önlemlerini aşmaya veya kötüye kullanmaya yönelik girişimler yasaktır.
+
+### MADDE 4 — Gizlilik ve Kişisel Veriler
+- Başka kişilerin özel bilgileri izinsiz paylaşılmamalıdır.
+- Parola, API anahtarı, erişim belirteci ve benzeri gizli bilgiler korunmalıdır.
+- Başka kullanıcıların hesaplarına veya verilerine erişmeye çalışılmamalıdır.
+- Özel konuşmalar izinsiz yayımlanmamalıdır.
+
+### MADDE 5 — Yapay Zekânın Kötüye Kullanılması
+- PrismX, diğer kişilere zarar vermek veya onları aldatmak amacıyla kullanılmamalıdır.
+- Dolandırıcılık, kimlik taklidi ve kötü niyetli otomasyon faaliyetleri desteklenmez.
+- Yapay zekâ yanıtları doğrulanmadan kesin gerçek olarak kabul edilmemelidir.
+- Üretilen içeriklerin kullanımından kullanıcı sorumludur.
+
+### MADDE 6 — İçerik ve Fikri Mülkiyet
+- Başkalarına ait çalışmalar izinsiz şekilde sahiplenilmemelidir.
+- Telif hakları ve içerik sahipliği gözetilmelidir.
+- Paylaşılan dosyaların kullanım haklarına dikkat edilmelidir.
+
+### MADDE 7 — Platform Güvenliği
+- Sistem açıklarından yararlanarak hizmeti bozma girişimleri yasaktır.
+- Yetkisiz erişim, hesap ele geçirme ve veri manipülasyonu kabul edilmez.
+- PrismX altyapısına yönelik kötü niyetli saldırılar yasaktır.
+
+### MADDE 8 — İhlaller ve Yaptırımlar
+Kuralların ihlal edilmesi durumunda ihlalin niteliğine ve tekrarına göre şu işlemler uygulanabilir:
+
+1. Uyarı verilmesi.
+2. İlgili içeriğin kaldırılması.
+3. Hesabın geçici olarak kısıtlanması.
+4. Hesabın geçici olarak askıya alınması.
+5. Ağır veya tekrarlanan ihlallerde hesabın kalıcı olarak kapatılması.
+
+Yaptırımlar uygulanırken ihlalin ağırlığı ve tekrarlanma durumu dikkate alınır.
+
+### SON HÜKÜM
+
+PrismX, herkesin özgürce iletişim kurabildiği, güvenli ve saygılı bir yapay zekâ platformu olmayı hedefler.
+
+Platformu kullanan herkes bu kurallara uymayı kabul eder.
+
+**Saygı, güvenlik ve sorumluluk PrismX topluluğunun temelidir.**
+
+— PRISM CREW

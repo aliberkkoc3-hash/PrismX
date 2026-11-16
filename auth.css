@@ -1,0 +1,443 @@
+/* ─── Auth Screen ─── */
+
+.auth-screen {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    overflow-y: auto;
+    padding: 24px;
+    background:
+        radial-gradient(ellipse at 30% 0%, rgba(109, 74, 255, 0.12), transparent 50%),
+        radial-gradient(ellipse at 70% 10%, rgba(156, 107, 255, 0.10), transparent 40%),
+        radial-gradient(ellipse at 50% 60%, rgba(56, 38, 120, 0.08), transparent 55%),
+        #07090e;
+}
+
+@font-face {
+    font-family: "VCR OSD Mono";
+    src: url("/fonts/VCR_OSD_MONO.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.auth-screen::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* CRT Scanline overlay */
+.auth-screen::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.03) 0px,
+        rgba(0, 0, 0, 0.03) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.auth-screen[hidden],
+.app-shell[hidden] {
+    display: none;
+}
+
+/* ─── Card ─── */
+
+.auth-card {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 420px);
+    padding: 40px 38px 36px;
+    border: 1px solid rgba(159, 170, 197, 0.10);
+    border-radius: 24px;
+    background:
+        linear-gradient(
+            168deg,
+            rgba(30, 27, 54, 0.55) 0%,
+            rgba(14, 16, 24, 0.92) 50%,
+            rgba(17, 20, 29, 0.96) 100%
+        );
+    box-shadow:
+        0 1px 0 0 rgba(255, 255, 255, 0.03) inset,
+        0 30px 100px rgba(0, 0, 0, 0.45),
+        0 8px 32px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    animation: cardEntry 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardEntry {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.auth-card::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(177, 157, 255, 0.25), transparent);
+    border-radius: 1px;
+}
+
+/* ─── Logo ─── */
+
+.auth-logo {
+    width: 62px;
+    height: 62px;
+    border: 1px solid rgba(177, 157, 255, 0.22);
+    border-radius: 18px;
+    box-shadow:
+        0 0 0 4px rgba(133, 100, 255, 0.06),
+        0 10px 30px rgba(133, 100, 255, 0.18);
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.auth-logo:hover {
+    transform: scale(1.06) rotate(-2deg);
+    box-shadow:
+        0 0 0 5px rgba(133, 100, 255, 0.10),
+        0 14px 36px rgba(133, 100, 255, 0.25);
+}
+
+/* ─── Brandline ─── */
+
+.auth-brandline {
+    margin: 13px 0 10px;
+    color: #b5a3f7;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 9px;
+    font-weight: normal;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #b5a3f7, #d4c7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ─── Heading ─── */
+
+.auth-card h1 {
+    margin: 0;
+    color: #f0f1f7;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 22px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, #ffffff 30%, #c8c5d6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ─── Description ─── */
+
+.auth-description {
+    margin: 12px 0 26px;
+    color: #858a9c;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    line-height: 1.8;
+}
+
+/* ─── Tabs ─── */
+
+.auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-bottom: 24px;
+    padding: 4px;
+    border: 1px solid rgba(159, 170, 197, 0.09);
+    border-radius: 12px;
+    background: rgba(10, 13, 20, 0.8);
+}
+
+.auth-tab {
+    position: relative;
+    min-height: 38px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: transparent;
+    color: #6b7186;
+    cursor: pointer;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 10px;
+    font-weight: normal;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.auth-tab:hover:not(.active) {
+    color: #9ea3b5;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.auth-tab.active {
+    border-color: rgba(177, 157, 255, 0.14);
+    background: linear-gradient(180deg, rgba(30, 28, 48, 0.9), rgba(22, 24, 36, 0.9));
+    box-shadow:
+        0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
+        0 2px 8px rgba(0, 0, 0, 0.2);
+    color: #e5e0f8;
+}
+
+/* ─── Form ─── */
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.auth-form label {
+    margin: 0 0 7px;
+    color: #bfc4d2;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 9px;
+    font-weight: normal;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.auth-form input {
+    width: 100%;
+    height: 44px;
+    margin-bottom: 16px;
+    padding: 0 14px;
+    border: 1px solid rgba(159, 170, 197, 0.12);
+    border-radius: 10px;
+    outline: none;
+    background: rgba(10, 13, 20, 0.7);
+    color: #eff0f6;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.auth-form input::placeholder {
+    color: #4a4f62;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+}
+
+.auth-form input:hover {
+    border-color: rgba(159, 170, 197, 0.20);
+    background: rgba(12, 15, 22, 0.85);
+}
+
+.auth-form input:focus {
+    border-color: rgba(157, 131, 246, 0.55);
+    box-shadow:
+        0 0 0 3px rgba(157, 131, 246, 0.08),
+        0 0 20px rgba(157, 131, 246, 0.05);
+    background: rgba(12, 15, 22, 0.9);
+}
+
+.auth-form input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    border-radius: 5px;
+    accent-color: #9d83f6;
+    cursor: pointer;
+}
+
+/* ─── Remember Row ─── */
+
+.auth-remember-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: -2px 0 18px;
+}
+
+.auth-remember {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #a0a7ba;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 9px;
+    font-weight: normal;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+.auth-remember:hover {
+    color: #c8ccda;
+}
+
+/* ─── Confirm Password ─── */
+
+.confirm-password-field[hidden] {
+    display: none;
+}
+
+.confirm-password-field small {
+    display: block;
+    margin: -9px 0 14px;
+    color: #6a7186;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.5px;
+}
+
+/* ─── Error ─── */
+
+.auth-error {
+    margin: 0 0 14px;
+    padding: 11px 14px;
+    border: 1px solid rgba(255, 110, 110, 0.18);
+    border-radius: 10px;
+    background: rgba(255, 90, 90, 0.06);
+    color: #f0a1a1;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.3px;
+    line-height: 1.6;
+    animation: errorShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-3px); }
+    80% { transform: translateX(2px); }
+}
+
+.auth-error[hidden] {
+    display: none;
+}
+
+/* ─── Submit ─── */
+
+.auth-submit {
+    position: relative;
+    min-height: 44px;
+    border: none;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #9d83f6 0%, #7b5ce6 50%, #6a4fd4 100%);
+    box-shadow:
+        0 1px 0 0 rgba(255, 255, 255, 0.12) inset,
+        0 6px 20px rgba(126, 96, 224, 0.25),
+        0 2px 6px rgba(126, 96, 224, 0.15);
+    color: #fff;
+    cursor: pointer;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 11px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition:
+        transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+    overflow: hidden;
+}
+
+.auth-submit::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.auth-submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow:
+        0 1px 0 0 rgba(255, 255, 255, 0.12) inset,
+        0 8px 28px rgba(126, 96, 224, 0.35),
+        0 3px 8px rgba(126, 96, 224, 0.2);
+    filter: brightness(1.08);
+}
+
+.auth-submit:active:not(:disabled) {
+    transform: translateY(0.5px);
+    box-shadow:
+        0 1px 0 0 rgba(255, 255, 255, 0.08) inset,
+        0 3px 12px rgba(126, 96, 224, 0.2);
+}
+
+.auth-submit:disabled {
+    cursor: wait;
+    opacity: 0.55;
+    filter: saturate(0.7);
+}
+
+/* ─── Security Note ─── */
+
+.auth-security-note {
+    margin: 22px 0 0;
+    color: #5c6175;
+    font-family: "VCR OSD Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.8px;
+    line-height: 1.6;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+}
+
+.auth-security-note:hover {
+    color: #7c8196;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 28px 22px 26px;
+        border-radius: 18px;
+    }
+
+    .auth-card h1 {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+
+    .auth-description {
+        font-size: 9px;
+    }
+}

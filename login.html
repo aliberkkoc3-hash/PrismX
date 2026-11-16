@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090b10">
+    <title>Prism X — Giriş Yap</title>
+    <link rel="icon" type="image/png" href="PrismX.png">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <main class="auth-screen">
+        <section class="auth-card" aria-labelledby="loginTitle">
+            <img class="auth-logo" src="PrismX.png" alt="Prism X — BY PRISM CREW">
+            <p class="auth-brandline">BY PRISM CREW</p>
+            <h1 id="loginTitle">Tekrar hoş geldin</h1>
+            <p class="auth-description">PrismX asistanına devam etmek için giriş yap.</p>
+
+            <form class="auth-form" id="loginForm" novalidate>
+                <label for="loginUsername">Kullanıcı adı</label>
+                <input id="loginUsername" name="username" type="text" autocomplete="username" minlength="3" maxlength="32" autocapitalize="none" spellcheck="false" required>
+
+                <label for="loginPassword">Parola</label>
+                <input id="loginPassword" name="password" type="password" autocomplete="current-password" maxlength="128" required>
+
+                <div class="auth-remember-row">
+                    <label class="auth-remember" for="loginRememberMe">
+                        <input id="loginRememberMe" name="rememberMe" type="checkbox">
+                        <span>Beni hatırla</span>
+                    </label>
+                </div>
+
+                <p class="auth-error" id="authError" role="alert" hidden></p>
+                <button class="auth-submit" id="loginSubmit" type="submit">Giriş yap</button>
+            </form>
+
+            <p class="auth-security-note">Hesabın yok mu? <a href="/register">Hesap oluştur</a></p>
+        </section>
+    </main>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const loginSubmit = document.getElementById('loginSubmit');
+        const authError = document.getElementById('authError');
+
+        function showAuthError(message) {
+            authError.textContent = message;
+            authError.hidden = !message;
+        }
+
+        loginForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            showAuthError('');
+
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('loginRememberMe').checked;
+
+            if (!username || !password) {
+                showAuthError('Kullanıcı adı ve parola gerekli.');
+                return;
+            }
+
+            loginSubmit.disabled = true;
+            loginSubmit.textContent = 'Giriş yapılıyor...';
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ username, password, rememberMe })
+                });
+
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    showAuthError(result.error || 'Giriş başarısız oldu.');
+                    return;
+                }
+
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Login failed:', error);
+                showAuthError('Sunucuya ulaşılamıyor. Lütfen tekrar deneyin.');
+            } finally {
+                loginSubmit.disabled = false;
+                loginSubmit.textContent = 'Giriş yap';
+            }
+        });
+    </script>
+</body>
+</html>
